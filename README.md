@@ -1,4 +1,5 @@
 uow-typeorm
+[![Build Status](https://travis-ci.org/pilagod/uow-typeorm.svg?branch=master)](https://travis-ci.org/pilagod/uow-typeorm)
 ===========
 
 Unit of Work pattern implementation for TypeORM
