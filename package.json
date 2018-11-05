@@ -1,0 +1,26 @@
+{
+  "name": "uow-typeorm",
+  "version": "0.1.0",
+  "description": "Unit of Work pattern implementation for TypeORM",
+  "author": "pilagod <pilagooood@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/sinon": "^5.0.5",
+    "jest": "^23.6.0",
+    "pg": "^7.6.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^7.1.1",
+    "ts-jest": "^23.10.4",
+    "tslint-config-standard": "^8.0.1",
+    "typeorm": "^0.2.8",
+    "typescript": "^3.1.6",
+    "uow-template": "^0.1.3"
+  }
+}
