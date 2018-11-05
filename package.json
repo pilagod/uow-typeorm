@@ -1,9 +1,24 @@
 {
   "name": "uow-typeorm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unit of Work pattern implementation for TypeORM",
   "author": "pilagod <pilagooood@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "transaction",
+    "typeorm",
+    "uow",
+    "unit-of-work",
+    "unit-of-work-pattern"
+  ],
+  "homepage": "https://github.com/pilagod/uow-typeorm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pilagod/uow-typeorm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pilagod/uow-typeorm/issues"
+  },
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc",
