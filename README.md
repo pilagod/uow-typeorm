@@ -1,5 +1,6 @@
 uow-typeorm
 [![Build Status](https://travis-ci.org/pilagod/uow-typeorm.svg?branch=master)](https://travis-ci.org/pilagod/uow-typeorm)
+[![Coverage Status](https://coveralls.io/repos/github/pilagod/uow-typeorm/badge.svg?branch=master)](https://coveralls.io/github/pilagod/uow-typeorm?branch=master)
 ===========
 
 Unit of Work pattern implementation for TypeORM
