@@ -95,7 +95,7 @@ describe('uow typeorm', async () => {
       const original = getTestEntity(1, 'test')
       const expected = getTestEntity(1, 'update successfully')
 
-      await testEntityMapper.create(original)
+      await testEntityMapper.insert(original)
       await repository.update(expected)
       
       const got = await testEntityMapper.findOne(1)
@@ -108,7 +108,7 @@ describe('uow typeorm', async () => {
       const original = getTestEntity(1, 'test')
       const expected = getTestEntity(1, '')
 
-      await testEntityMapper.create(original)
+      await testEntityMapper.insert(original)
       await repository.delete(expected)
       
       const got = await testEntityMapper.findOne(1)
