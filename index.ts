@@ -3,11 +3,12 @@ import { UnitOfWorkObject, UnitOfWorkTemplate } from 'uow-template'
 
 export class TypeORMUnitOfWorkObject implements UnitOfWorkObject<QueryRunner> {
   public async createByTx(tx: QueryRunner) {
-    await tx.manager.save(this)
+    await tx.manager.insert(this.constructor, this)
   }
 
   public async updateByTx(tx: QueryRunner) {
-    await tx.manager.save(this)
+    const metadata = tx.connection.getMetadata(this.constructor)
+    await tx.manager.update(this.constructor, {...metadata.getEntityIdMap(this)}, this)
   }
 
   public async deleteByTx(tx: QueryRunner) {
