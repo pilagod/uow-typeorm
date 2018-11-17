@@ -1,7 +1,8 @@
 import { Connection, QueryRunner } from 'typeorm'
 import { Uow, UowObject } from 'uow-template'
 
-export class TypeORMUnitOfWorkObject implements UowObject<QueryRunner> {
+export class UowEntity implements UowObject<QueryRunner> {
+
   public async createByTx (tx: QueryRunner) {
     await tx.manager.insert(this.constructor, this)
   }
@@ -16,7 +17,7 @@ export class TypeORMUnitOfWorkObject implements UowObject<QueryRunner> {
   }
 }
 
-export class TypeORMUnitOfWorkTemplate extends Uow<QueryRunner> {
+export class UowRepository extends Uow<QueryRunner> {
 
   public constructor (private connection: Connection) {
     super()

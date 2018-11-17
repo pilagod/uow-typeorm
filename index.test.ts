@@ -7,10 +7,10 @@ import {
   PrimaryColumn,
   Repository as Mapper
 } from 'typeorm'
-import { TypeORMUnitOfWorkObject, TypeORMUnitOfWorkTemplate } from './'
+import { UowEntity, UowRepository } from './'
 
 @Entity()
-class TestEntity extends TypeORMUnitOfWorkObject {
+class TestEntity extends UowEntity {
   @PrimaryColumn('integer')
   public id: number = 0
 
@@ -20,7 +20,8 @@ class TestEntity extends TypeORMUnitOfWorkObject {
   public name: string = ''
 }
 
-class TestRepository extends TypeORMUnitOfWorkTemplate {
+class TestRepository extends UowRepository {
+
   public constructor (connection: Connection) {
     super(connection)
   }
