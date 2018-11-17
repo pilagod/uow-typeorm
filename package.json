@@ -1,6 +1,6 @@
 {
   "name": "uow-typeorm",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Unit of Work pattern implementation for TypeORM",
   "author": "pilagod <pilagooood@gmail.com>",
   "license": "MIT",
