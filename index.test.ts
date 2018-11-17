@@ -5,7 +5,7 @@ import {
   createConnection,
   Entity,
   PrimaryColumn,
-  Repository
+  Repository as Mapper
 } from 'typeorm'
 import { TypeORMUnitOfWorkObject, TypeORMUnitOfWorkTemplate } from './'
 
@@ -40,7 +40,7 @@ class TestRepository extends TypeORMUnitOfWorkTemplate {
 
 describe('uow typeorm', async () => {
   let connection: Connection
-  let testEntityMapper: Repository<TestEntity>
+  let testEntityMapper: Mapper<TestEntity>
 
   beforeAll(async () => {
     connection = await createConnection({
@@ -53,6 +53,7 @@ describe('uow typeorm', async () => {
       entities: [
         TestEntity
       ],
+      dropSchema: true,
       synchronize: true
     })
     testEntityMapper = connection.getRepository(TestEntity)
@@ -64,7 +65,7 @@ describe('uow typeorm', async () => {
   })
 
   beforeEach(async () => {
-    await testEntityMapper.query(`TRUNCATE TABLE test_entity;`)
+    await testEntityMapper.query(`TRUNCATE TABLE test_entity RESTART IDENTITY CASCADE;`)
   })
 
   function getTestRepository () {
@@ -113,7 +114,7 @@ describe('uow typeorm', async () => {
 
       const got = await testEntityMapper.findOne(1)
 
-      expect(got).toBe(undefined)
+      expect(got).toBeUndefined()
     })
   })
 
@@ -123,25 +124,31 @@ describe('uow typeorm', async () => {
       const entity1 = getTestEntity(1, 'first entity')
       const entity2 = getTestEntity(2, 'second entity')
       const entity2Update = getTestEntity(2, 'update entity')
+      const entity3 = getTestEntity(3, 'third entity')
 
       await testEntityMapper.insert(entity2)
+      await testEntityMapper.insert(entity3)
 
       repository.beginWork()
       await repository.create(entity1)
       await repository.update(entity2Update)
-      await repository.delete(entity1)
+      await repository.delete(entity3)
 
       const countBeforeCommit = await testEntityMapper.count()
 
-      expect(countBeforeCommit).toBe(1)
+      expect(countBeforeCommit).toBe(2)
 
       await repository.commitWork()
 
       const countAfterCommit = await testEntityMapper.count()
+      const entity1Got = await testEntityMapper.findOne(1)
       const entity2Got = await testEntityMapper.findOne(2)
+      const entity3Got = await testEntityMapper.findOne(3)
 
-      expect(countAfterCommit).toBe(1)
+      expect(countAfterCommit).toBe(2)
+      expect(entity1Got).toEqual(entity1)
       expect(entity2Got).toEqual(entity2Update)
+      expect(entity3Got).toBeUndefined()
     })
 
     it('should rollback all actions if any error occurs after beginWork declaration', async () => {
@@ -163,8 +170,11 @@ describe('uow typeorm', async () => {
       await repository.create(entity1)
       await repository.update(entity2Update)
       await repository.delete(entity3)
-      await repository.commitWork()
-
+      try {
+        await repository.commitWork()
+      } catch (e) {
+        // catch error to keep test going
+      }
       const entitiesAfterCommit = await testEntityMapper.find()
 
       expect(entitiesAfterCommit).toEqual(entitiesBeforeCommit)
