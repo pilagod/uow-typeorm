@@ -3,7 +3,7 @@ uow-typeorm
 [![Coverage Status](https://coveralls.io/repos/github/pilagod/uow-typeorm/badge.svg?branch=master)](https://coveralls.io/github/pilagod/uow-typeorm?branch=master)
 ===========
 
-Unit of Work pattern implementation for TypeORM
+Unit of Work pattern implementation for [TypeORM](https://github.com/typeorm/typeorm), based on [uow-template](https://github.com/pilagod/uow-template).
 
 Installation
 ------------
