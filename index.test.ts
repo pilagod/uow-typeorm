@@ -1,11 +1,11 @@
 import sinon from 'sinon'
-import { 
-  Column, 
-  Connection, 
+import {
+  Column,
+  Connection,
   createConnection,
-  Entity, 
+  Entity,
   PrimaryColumn,
-  Repository,
+  Repository
 } from 'typeorm'
 import { TypeORMUnitOfWorkObject, TypeORMUnitOfWorkTemplate } from './'
 
@@ -14,26 +14,26 @@ class TestEntity extends TypeORMUnitOfWorkObject {
   @PrimaryColumn('integer')
   public id: number = 0
 
-  @Column('varchar', { 
+  @Column('varchar', {
     length: 32
   })
   public name: string = ''
 }
 
 class TestRepository extends TypeORMUnitOfWorkTemplate {
-  public constructor(connection: Connection) {
+  public constructor (connection: Connection) {
     super(connection)
   }
 
-  public async create(entity: TestEntity) {
+  public async create (entity: TestEntity) {
     await this.markCreate(entity)
   }
 
-  public async update(entity: TestEntity) {
+  public async update (entity: TestEntity) {
     await this.markUpdate(entity)
   }
 
-  public async delete(entity: TestEntity) {
+  public async delete (entity: TestEntity) {
     await this.markDelete(entity)
   }
 }
@@ -67,11 +67,11 @@ describe('uow typeorm', async () => {
     await testEntityMapper.query(`TRUNCATE TABLE test_entity;`)
   })
 
-  function getTestRepository() {
+  function getTestRepository () {
     return new TestRepository(connection)
   }
 
-  function getTestEntity(id: number, name: string) {
+  function getTestEntity (id: number, name: string) {
     const entity = new TestEntity()
     entity.id = id
     entity.name = name
@@ -84,7 +84,7 @@ describe('uow typeorm', async () => {
       const expected = getTestEntity(1, 'test')
 
       await repository.create(expected)
-      
+
       const got = await testEntityMapper.findOne(1)
 
       expect(got).toEqual(expected)
@@ -97,7 +97,7 @@ describe('uow typeorm', async () => {
 
       await testEntityMapper.insert(original)
       await repository.update(expected)
-      
+
       const got = await testEntityMapper.findOne(1)
 
       expect(got).toEqual(expected)
@@ -110,7 +110,7 @@ describe('uow typeorm', async () => {
 
       await testEntityMapper.insert(original)
       await repository.delete(expected)
-      
+
       const got = await testEntityMapper.findOne(1)
 
       expect(got).toBe(undefined)
@@ -123,7 +123,7 @@ describe('uow typeorm', async () => {
       const entity1 = getTestEntity(1, 'first entity')
       const entity2 = getTestEntity(2, 'second entity')
       const entity2Update = getTestEntity(2, 'update entity')
-      
+
       await testEntityMapper.insert(entity2)
 
       repository.beginWork()
